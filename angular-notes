@@ -133,7 +133,83 @@ Custome pipes
 - we can pass parameter also
 <td>{{product.price | currency:'₹':'symbol' : '1.2-2' | lowercase}}</td>
 
+++ Improve component
+-Strong typing and interface
+-Encapsulating Styles
+-lifecycle hooks
+-custoome Pipes
+-nested components 
 
+++ Strong tuping
+-every property has a type , return and parameter have pipes
+++ interface : 
+-a specifcation identfying a related set of properties and methods
+-use the interface as a data-type
+-for development only
+
+export interface IProduct {
+     
+}
+
+we have to import interface to use it.
+
+and use it as 
+
+products: IProduct[] = [{},{}]
+
+++ Encapsulating Component Styles
+
+++ LifeCycle
+Componet has a lifecycle manage by angular
+- create - render - create and render children - process change when its data binding change - destroy
+OnInit :- perform component initialization retrive data, after angular initialization data
+OnChange : - perform action after change to input properties
+OnDestroy : - Perfrom cleanup
+
+1)To use lifeCycle hooks we need to implenents OnInit Interface.
+2) Import {OnInit} from '@angular/core'
+3) ngOnInit():void{
+    }
+
+++ Custom pipes 
+Replace dash with space gdn-203
+
+import { Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({
+    name:'convertToSpaces'
+})
+export class ConverToSpacesPipe implements PipeTransform{
+    transform(value: string //value which we are transforming,
+    character:string//aregument to perform transformation "spaces"):string//return type{
+
+    }//method to traansform value and return
+}
+<td>{{product.productCode | convertToSpaces: '-'}}</td>
+
+here 
+transform(value:string // product.productCod , character:string // '-'):string {
+
+}
+
+After this we need to add this into app.mmodule.ts in declarations array
+
+++ Filter data 
+- using pipes
+- adding filter in component 
+*Getter - data binding needs value it calls getter
+*Setter - every user modifies the value data binding calls the setting passing in the setter value
+
+  _listFilter: string;
+
+    get listFilter(): string {
+      return this._listFilter;
+    }
+
+    set listFilter(value:string) {
+      this._listFilter = value // everytime the value is change we can add here
+      this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+    }
 
 
 tavya madhe bhajycha tomato,hirvi mirchi
