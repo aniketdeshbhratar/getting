@@ -25,7 +25,9 @@ export class ProductListComponent implements OnInit {
 
 
     filteredProducts: IProduct[];
-
+    onRatingClicked(event){
+     this.pageTitle = "Product List : " +  event;
+    }
 
     products: IProduct[] =[
         {
