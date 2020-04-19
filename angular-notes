@@ -133,13 +133,133 @@ Custome pipes
 - we can pass parameter also
 <td>{{product.price | currency:'₹':'symbol' : '1.2-2' | lowercase}}</td>
 
+++ Improve component
+-Strong typing and interface
+-Encapsulating Styles
+-lifecycle hooks
+-custoome Pipes
+-nested components 
+
+++ Strong tuping
+-every property has a type , return and parameter have pipes
+++ interface : 
+-a specifcation identfying a related set of properties and methods
+-use the interface as a data-type
+-for development only
+
+export interface IProduct {
+     
+}
+
+we have to import interface to use it.
+
+and use it as 
+
+products: IProduct[] = [{},{}]
+
+++ Encapsulating Component Styles
+
+++ LifeCycle
+Componet has a lifecycle manage by angular
+- create - render - create and render children - process change when its data binding change - destroy
+OnInit :- perform component initialization retrive data, after angular initialization data
+OnChange : - perform action after change to input properties
+OnDestroy : - Perfrom cleanup
+
+1)To use lifeCycle hooks we need to implenents OnInit Interface.
+2) Import {OnInit} from '@angular/core'
+3) ngOnInit():void{
+    }
+
+++ Custom pipes 
+Replace dash with space gdn-203
+
+import { Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({
+    name:'convertToSpaces'
+})
+export class ConverToSpacesPipe implements PipeTransform{
+    transform(value: string //value which we are transforming,
+    character:string//aregument to perform transformation "spaces"):string//return type{
+
+    }//method to traansform value and return
+}
+<td>{{product.productCode | convertToSpaces: '-'}}</td>
+
+here 
+transform(value:string // product.productCod , character:string // '-'):string {
+
+}
+
+After this we need to add this into app.mmodule.ts in declarations array
+
+++ Filter data 
+- using pipes
+- adding filter in component 
+*Getter - data binding needs value it calls getter
+*Setter - every user modifies the value data binding calls the setting passing in the setter value
+
+  _listFilter: string;
+
+    get listFilter(): string {
+      return this._listFilter;
+    }
+
+    set listFilter(value:string) {
+      this._listFilter = value // everytime the value is change we can add here
+      this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+    }
+
+++Nested component
+to add component to any other component we have use component as a directive
+-Register it with app.module.ts in declarations array
+
+++passing data using Input() parent to child
+create variable using Input() rating: number 
+and use it as a property binding [rating]="" and pass the data
+child.ts
+@Input() rating:number;
+
+parent.html
+<td><pm-star [rating]='product.starRating'></pm-star></td>
 
 
-
-tavya madhe bhajycha tomato,hirvi mirchi
-tavyat mash karycha
-
-
-jira lasun telat ani kanda
-
+If a neste componet to recive input from a container it should be expos property to same container
+The nested component exposes a property it can use to receive input from its container
+by using input decorator
  
+++ Passing info from child to parent @output
+it should be event
+EventEmitter object to create event in angular
+-first create new instance of eventmitter
+EventEmitter<string> = new EventEmitter<string>();
+-generic event payload string <string>
+-generic event payload integer <number>
+-generic event payload multiple values <object>
+
+we have to use onClick() and pass emit method
+
+1) First create click event in child html
+(click)="onClick()"
+
+2) Create a EventEmitter in child.ts 
+@Output() ratingClicked: EventEmitter <string> = new EventEmitter<string>();
+ 
+3) in child.ts create function which we have created in html
+onClick(){
+      this.ratingClicked.emit(`this rating ${this.rating}`)
+}
+
+4) add function into parent html, here @output variable shoud match with the function event caller
+(ratingClicked)='onRatingClicked($event)' and pass the event
+
+<pm-star [rating]='product.starRating' 
+(ratingClicked)='onRatingClicked($event)'></pm-star>
+
+5) add that function into parent ts file and caputer that data
+    onRatingClicked(event){
+     this.pageTitle = "Product List : " +  event;
+    }
+
+by using emit method we can pass data to eventmitter object which is ratingClicked

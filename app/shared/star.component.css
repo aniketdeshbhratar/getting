@@ -1,0 +1,15 @@
+.crop {
+  overflow: hidden;
+}
+
+div {
+  cursor: pointer;
+}
+
+span {
+  margin: 2px;
+}
+
+.star-container{
+  width: 100px;
+}
