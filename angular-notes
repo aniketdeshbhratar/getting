@@ -263,3 +263,63 @@ onClick(){
     }
 
 by using emit method we can pass data to eventmitter object which is ratingClicked
+
+++Services
+A is a class with focused purpose, those are independent from any perticular compnent
+share data or logic across components.
+
+Dependency Injection
+Is a coding pattern in which class receives the instances of object it needs 
+called Dependencies from an external source rather than creating them itself
+
+Steps to create services
+1- Create a Service class
+2- Define the metadata with a decorator 
+3- import what we need
+
+Import it from core
+@Injectable()
+export class productService{
+  with some method which return array or logic
+}
+
+we can register in root and in component base also
+just add providedIn property
+@Injectable({
+  providedIn: root
+})
+
+to register in specific compoinent add into decorator
+
+@Component({
+  templateUrl : './.html',
+  providers : [ProductService]
+})
+
+This is good for tree shaking 
+
+add calling services in construor and write in ngOnInit
+
+  constructor(private productList : ProductService){
+     } 
+  ngOnInit():void {
+   
+    console.log('In Oninit');
+    this.products = this.productList.getProduct();
+    this.filteredProducts = this.products;
+   }
+
+++ Observables : HTTP
+app request http to web servee, it retrives and respinse data to application then we process 
+the data
+
+Promises vs Observables
+Promises: 
+-returns single future value
+-not lazy, by the time it is on way of resolved
+-not cancellable
+Observables: 
+-emits multiple values over time
+-lazy by default, untill they are subsribe
+-can be cancel by unscribing 
+-supoorts map,filtermreduce and similer operators
