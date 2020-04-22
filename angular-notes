@@ -323,3 +323,27 @@ Observables:
 -lazy by default, untill they are subsribe
 -can be cancel by unscribing 
 -supoorts map,filtermreduce and similer operators
+
+++ Creating new component using click
+ng g c products/product-detail --flat
+
+++ Routing 
+-browser uRL changes and looks for route defination
+-which includes the name and compinent to load
+-then angular loads the comoiment usinng router outlet
+
+-First include RouterModule in imports in app.module.ts
+-RouterModule.forRoot([], {useHash : true}) if # is needed in url
+-  <base href="/"> must be added into index.html
+- configued routes can be shown by forRoot([])
+
+-router order matters, route catch the first match 
+-no leading slash
+- '' for default route
+-'**' for 404
+[Q] what is pathMatch?
+[Q] Other forRoot methods
+[Q] what is base href?
+[Q] can we use two or more router-outlate?
+
+
