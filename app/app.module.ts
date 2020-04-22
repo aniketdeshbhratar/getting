@@ -12,6 +12,8 @@ import { ProductListComponent } from './products/product-list.component';
 import { ConvertToSpacesPipe } from './shared/convert-to-spaces.pipe';
 
 import { StarComponent } from './shared/star.component';
+import { ProductDetailComponent } from './products/product-detail.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -20,15 +22,26 @@ import { StarComponent } from './shared/star.component';
     WelcomeComponent,
     ProductListComponent,
     ConvertToSpacesPipe,
-    StarComponent
+    StarComponent,
+    ProductDetailComponent,
   ],
   imports: [ //3rd party module
     BrowserModule,    
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot([
+      {path : 'products' , component : ProductListComponent},
+      {path : 'products/:id' , component : ProductDetailComponent},
+      {path: 'welcome' , component : WelcomeComponent},
+      {path : '' , redirectTo : 'welcome' , pathMatch : 'full'},
+      {path : '**' , redirectTo : 'welcome' , pathMatch: 'full'}
+
+    ], {useHash : true})
   ],
   providers: [],
   bootstrap: [AppComponent] // starting component
 })
-export class AppModule { }
+export class AppModule {
+
+ }
