@@ -341,9 +341,134 @@ ng g c products/product-detail --flat
 -no leading slash
 - '' for default route
 -'**' for 404
+
 [Q] what is pathMatch?
 [Q] Other forRoot methods
 [Q] what is base href?
 [Q] can we use two or more router-outlate?
 
 
+++ routing with passing data
+in route we have to use : and id so we can pass id 
+{path : 'products/:id' , component : ProductDetailComponent},
+
+then bind link to pass value
+<a [routerLink]="['/products',oroduct.productId]">{{product.productName}}</a>
+[routerLink]="['nameofRoute',idParameter]"
+
+then add ActicatedRoute serice to help
+import { ActivatedRoute } from '@angular/router';
+
+[Q] how acticated Route works
+[Q] how Dependency injection works, and create instance
+
+then add instance in construcotr then create variable which will fetch ID in ngOnInit()
+constructor(private route: ActivatedRoute) {
+
+}
+
+
+let id = +this.route.snapshot.paramMap.get('id')
+
+route.snapshot is used to get the parameter
+paramMap
+get('id') = pass name which we want
+
+by adding + in front of getting id snapshot it will convert string into number
+
+[Q] what is snapshot
+[Q] what is paramMap
+[Q] other methods from route.
+
+Read the paramenter in navigate component using ActicatedRoute service
+ngOnInit() {
+  let id = this.route.snapshot.paramMap.get('id')
+  console.log(`this.route $this.route , snapshot ${this.route.snapshot} , param ${this.route.snapshot.paramMap}`)
+  
+  this.pageTitle += `${id}`;
+  this.product = {
+    "productId" : id,
+    "productName": "Leaf Rake",
+    "productCode": "GDN-0011",
+    "releaseDate": "March 19, 2019",
+    "description": "Leaf rake with 48-inch wooden handle.",
+    "price": 19.95,
+    "starRating": 3.2,
+    "imageUrl": "assets/images/icon_android.png"
+  }
+  
+}
+
+
+How to add back button 
+first add Router services 
+
+import { ActivatedRoute, Router } from '@angular/router';
+
+Create its Dependency instance in constructor
+constructor(private route: ActivatedRoute, private router:Router) {
+}
+
+write a function on back button which will navigate using ts file
+  onBack():void {
+    this.router.navigate(['/products'])
+    
+}
+
+Router.navigate method of Router serice is used to binding routerlink.
+
+
+++ ROuterGuards
+to limit access to a route. we want route for specific user
+or to confirm navigation operation like to save deta 
+
+CanActivate: Guard navigation to a route 
+CanDeactivate : Guard navigation from a route
+resolved : Pre-fetch data before activating a route
+CanLoad : prevent asynchronous routing
+
+using CLI
+ng g g products/product-detail
+and use space to select
+
+it will create a guard ts file
+-which contains canActivate() with two parameters
+1) Next : ActicatedRouteSnapShot
+2) State : RouterSateSnapShot()
+
+[Q] check both next and state
+
+add Router instance in constructor
+constructor(private router : Router){
+
+}
+
+in canActivate method we get two parameters where next will give the snapshot of it
+> Route(url:'products/1', path:'products/:id');
+
+add a logic which will check null or undefined is passed or not and then return it false
+
+canActivate(
+  next: ActivatedRouteSnapshot, //to provide current route information,
+  state: RouterStateSnapshot //to provide state information
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    console.log("NE " + next);
+  let id = +next.url[1].path;
+  if(isNaN(id) || id < 1) {
+    alert('Invaid Product Id');
+    this.router.navigate(['/products']);
+    return false;
+  }
+  return true;
+}
+
+Add this to router path
+{path : 'products/:id' , component : ProductDetailComponent, canActivate: [ProductDetailGuard] },
+
+++ Angular Modules
+
+- organize the pieces of application
+- Arragne them into bloks
+- Extend our application with capabilities from external libraries
+- provide a template resolution environment
+- aggregate and re-export
