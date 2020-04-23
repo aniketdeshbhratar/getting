@@ -464,3 +464,11 @@ canActivate(
 
 Add this to router path
 {path : 'products/:id' , component : ProductDetailComponent, canActivate: [ProductDetailGuard] },
+
+++ Angular Modules
+
+- organize the pieces of application
+- Arragne them into bloks
+- Extend our application with capabilities from external libraries
+- provide a template resolution environment
+- aggregate and re-export
