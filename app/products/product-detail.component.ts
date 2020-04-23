@@ -17,8 +17,7 @@ export class ProductDetailComponent implements OnInit {
    }
 
   onBack():void {
-    this.router.navigate(['/products'])
-    
+    this.router.navigate(['/products']);
   }
   ngOnInit() {
     let id = this.route.snapshot.paramMap.get('id')
